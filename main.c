@@ -69,49 +69,16 @@ timestamp_in_ms X has taken a fork
 
 #include "philo.h"
 
-
-pthread_t P[5];
-pthread_mutex_t F[5];
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-
-
-void	ft_biggest_fork(t_philo *p, int n, int smallest_fork, int x)
-{
-	pthread_mutex_lock(&F[x]);
-	printf("%s %d has taken a fork : %d\n", ft_itoa((int)(get_time() - (*p).ptr->t_start)), n, x);
-
-	pthread_mutex_lock(&F[smallest_fork]);
-	printf("%s %d has taken a fork :  %d\n",ft_itoa((int)(get_time() - (*p).ptr->t_start)), n, smallest_fork);
-	printf("%s %d is eating\n", ft_itoa((int)(get_time() - (*p).ptr->t_start)),n);
-	(*p).nb_of_dinners++;
-	ft_usleep((*p).ptr->t_to_eat);
-	pthread_mutex_unlock(&F[x]);
-	pthread_mutex_unlock(&F[smallest_fork]);
-}
-
-
-void	ft_smallest_fork(t_philo *p, int n, int smallest_fork, int x)
-{
-	pthread_mutex_lock(&F[smallest_fork]);
-	printf("%s %d has taken a fork :  %d\n",ft_itoa((int)(get_time() - (*p).ptr->t_start)), n, smallest_fork);
-	fflush(stdout);
-	pthread_mutex_lock(&F[x]);
-	printf("%s %d has taken a fork : %d\n",ft_itoa((int)(get_time() - (*p).ptr->t_start)), n, x);	// == printf("%d has taken the biggest fork : %d\n", n, x);
-	printf("%s %d is eating\n", ft_itoa((int)(get_time() - (*p).ptr->t_start)),n);
-	fflush(stdout);
-	(*p).nb_of_dinners++;
-	ft_usleep((*p).ptr->t_to_eat);
-	pthread_mutex_unlock(&F[smallest_fork]);//la plus petite
-	pthread_mutex_unlock(&F[x]);//la fourchette la plus grande
-}
-
 void *ft_start_routine(void *arg)
 {
+	t_philo	*p;
 
-	int stop_dining;
+
+	p = (t_philo *)arg;
+	(*p).ptr->stop_dining_all = 0;
 //pour eviter deadlock et famine on va ordonner les ressources et on imposera de prendre d abord la plus petite fork
-	stop_dining = 0;
-	while (stop_dining == 0)
+	ft_call_death_check(p);
+	while ((*p).ptr->stop_dining_all == 0)
 	{
 
 	//pthread_mutex_lock(&mutex);
@@ -124,16 +91,10 @@ void *ft_start_routine(void *arg)
 	n = (long)arg;
 	*/
 	//2 eme possibilite de cast:
-	t_philo	*p;
 
-
-	p = (t_philo *)arg;
 	n = ((*(t_philo *)arg).id); //cqfd TODO
 	x = ((*(t_philo *)arg).id);
 int flag = (*(t_philo *)arg).flag_last_philosopher;
-
-
-
 
 smallest_fork = n - 1;
 if (flag == 1)
@@ -147,63 +108,22 @@ if (flag == 1)
 else
 	x = n;
 
-
-
-
-if (n % 2 != 0)
-	ft_smallest_fork(p, n, smallest_fork, x);
-else
-	ft_biggest_fork(p, n, smallest_fork, x);
-
-
-	//n = (*(int *)arg); //cqfd TODO
-
-
-	//TODO verifier les index des P et des F
-//si le philosophe prend 2 fourchettes d un coup, on se trouve dans une situation de famine potentielle.
-	//essayons avec 1 fourchette a la fois
-	//pthread_mutex_lock(&mutex);
-	//*arg = n + 1;
+if ((*p).ptr->stop_dining_all != 1)
+{
+	if (n % 2 != 0)
+		ft_smallest_fork(p, n, smallest_fork, x);
+	else
+		ft_biggest_fork(p, n, smallest_fork, x);
+}
+if ((*p).ptr->stop_dining_all != 1)
+{
+		printf("%s %d is sleeping\n",ft_itoa((int)(curr_time() - (*p).ptr->t_start)), n);
+		ft_call_usleep((*p).ptr->t_to_sleep);
+		printf("%s %d is thinking \n",ft_itoa((int)(curr_time() - (*p).ptr->t_start)), n);
 	//pthread_mutex_unlock(&mutex);
-
-	 //start critical section->lock
-	//smallest fork
-
-
-
-/*
-pthread_mutex_lock(&F[smallest_fork]);
-
-	printf("Philosopher %d has taken the smallest fork :  %d\n", n, smallest_fork);
-	fflush(stdout);
-
-//same fork
-	//cas du last_philosophe : le dernier philosophe va prendre la fork n - 1
-
-		//pthread_mutex_lock(&F[x]);//when philosopher 5 is eating he takes fork 1 and fork 5
-		pthread_mutex_lock(&F[x]);
-
-		printf("Philosopher %d has taken the biggest fork : %d\n", n, x);
-		printf("%s, Philosopher %d is eating\n", ft_itoa((int)(get_time() - (*p).ptr->t_start)),n);
+		//usleep(100);
 		fflush(stdout);
-
-		(*p).nb_of_dinners++;
-
-		ft_usleep(200);
-		//End of critical section->unlock
-
-		pthread_mutex_unlock(&F[x]);//la fourchette la plus grande
-		pthread_mutex_unlock(&F[smallest_fork]);//la plus petite
-	//	->trop lent. diviser les taches avec le modulo pour aller plus vite
-*/
-		printf("%s %d is sleeping\n",ft_itoa((int)(get_time() - (*p).ptr->t_start)), n);
-		ft_usleep((*p).ptr->t_to_sleep);
-		printf("%s %d is thinking \n",ft_itoa((int)(get_time() - (*p).ptr->t_start)), n);
-	//pthread_mutex_unlock(&mutex);
-		//ft_usleep(100);
-		fflush(stdout);
-
-
+}
 }
 	return (NULL);
 }
@@ -217,7 +137,6 @@ int main(int argc, char *argv[])
 	int l;
 	int p;
 	int	k;
-	//void *msg;
 	int			nb_of_philosophers;
 	t_philo		*philos;
 	t_ptr	*ptr;
@@ -253,17 +172,18 @@ int main(int argc, char *argv[])
 	}
 
 	i = 0;
-	(*ptr).t_start = get_time();
+	(*ptr).t_start = curr_time();
 
 	if (nb_of_philosophers == 1)
 	{
-		ft_usleep((*ptr).t_to_die);
-		printf("%s %d died\n", ft_itoa((int)(get_time() - ptr->t_start)),nb_of_philosophers);
+		ft_call_usleep((*ptr).t_to_die);
+		printf("%s %d died\n", ft_itoa((int)(curr_time() - ptr->t_start)),nb_of_philosophers);
 		return(0);
 	}
 
 	while (i < nb_of_philosophers)
 	{
+
 		k = pthread_mutex_init(&F[i], NULL);//ou alors mais hors instructions 42, pthread_t_mutex F = PTHREAD_MUTEX_INITIALIZER; au lieu de pthread_mutex_init
 		if (k == -1)
 		{
@@ -278,6 +198,7 @@ int main(int argc, char *argv[])
 
 	while (j < nb_of_philosophers)
 	{
+		philos[j].last_meal_time = curr_time();//ou t_start?
 
 		k = pthread_create(&P[j], NULL, (void *)ft_start_routine, &philos[j]);
 		//k = pthread_create(&P[j], NULL, (void *)ft_start_routine, &j);//envoi possibilite n1 : (void *)(long)i
@@ -286,6 +207,7 @@ int main(int argc, char *argv[])
 			printf("Thread creation error \n");
 			exit(1);
 		}
+
 		j++;
 
 	}
