@@ -9,6 +9,7 @@ void	*ft_start_routine2(void *arg)
 
 	t_philo	*p;
 	int		stop;
+	char *chrono_death;
 
 	p = (t_philo *)arg;
 	stop = 0;
@@ -16,22 +17,38 @@ void	*ft_start_routine2(void *arg)
 	{
 		if ((curr_time() - (*p).last_meal_time) >= (unsigned int)(*p).ptr->t_to_die)
 		{
-			printf("%s %d died\n", ft_itoa((int)(curr_time() - (*p).ptr->t_start)), (*p).id);
-			stop = 1;
 			(*p).ptr->stop_dining_all = 1;
-			pthread_mutex_unlock(&mutex);
+			stop = 1;
+			pthread_detach((*p).D);//pthread_detach just means that you are never going to join with the thread again.
+			//This allows the pthread library to know whether it can immediately dispose of the
+			//thread resources once the thread exits (the detached case) or whether
+			//it must keep them around because you may later call pthread_join on the thread.
+			//Once main returns (or exits) the OS will reap all your threads and destroy your process.
+			chrono_death = ft_itoa((int)(curr_time() - (*p).ptr->t_start));
+			printf("%s %d died\n", chrono_death, (*p).id);
+			ft_free_str(chrono_death);
+			//print_debug(p, "mutex of death locked after death\n");
 
-			return (NULL);
+			//pthread_mutex_lock(&mutex);
+
+
+			//return (NULL);
 			//->FAIRE EN SORTE QUE TOUS LES THREADS SOIENT INTERROMPUS.
 			//(*p).stop_dining = 1;
 			//else
-		//stop = p->info->stop + p->stop;
 		}
 		else {
 			stop = (*p).ptr->stop_dining_all;
 		}
 	}
+
 	pthread_mutex_unlock(&mutex);
+	//print_debug(p, "mutex of death unlocked\n");
+
+	pthread_mutex_lock(&mutex);
+	//print_debug(p, "mutex of death locked\n");
+
+
 
 
 	return (NULL);
@@ -48,7 +65,6 @@ void	*ft_call_death_check(t_philo *p)
 		printf("Thread creation error \n");//perror("pthread_create failled");
 		exit(1);
 	}
-	//if (pthread_create(&p->faucheuse, NULL, &is_dead, p))//on lance le processus leger faucheuse
-	//pthread_detach(p->D);
+
 	return (NULL);
 }

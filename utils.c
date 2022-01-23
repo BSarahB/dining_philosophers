@@ -1,5 +1,19 @@
 #include "philo.h"
 
+void print_debug(t_philo *p, char const *s)
+{
+	//ne sera compile pas juste execute, que si debug == qq chose , soit deifni
+#ifdef DEBUG
+	int n;
+
+	n = (*p).id;
+	printf("%d %s", n, s);
+	fflush(stdout);
+#endif
+}
+
+
+
 int		find_length(int n)
 {
 	int length;
