@@ -130,7 +130,14 @@ if ((*p).ptr->stop_dining_all != 1)
 }
 
 //ft_smallest_fork(p, n, smallest_fork, x);
-
+if ((*p).ptr->nb_of_mandatory_meals != -1 && (*p).nb_of_dinners == (*p).ptr->nb_of_mandatory_meals)
+{
+	//lock? et unlock necessaire ou pas?
+	(*p).ptr->nb_of_plumpy_philos++;
+	if ((*p).ptr->nb_of_plumpy_philos == (*p).ptr->nb_of_philosophers)
+		(*p).ptr->stop_dining_all = 1;
+	return (NULL);
+}
 
 if ((*p).ptr->stop_dining_all != 1)
 {
@@ -142,7 +149,6 @@ if ((*p).ptr->stop_dining_all != 1)
 		if ((*p).ptr->stop_dining_all != 1)
 		{
 			chrono_think = ft_itoa((int)(curr_time() - (*p).ptr->t_start));
-
 			printf("%s %d is thinking \n",chrono_think, n);
 	//pthread_mutex_unlock(&mutex);
 			usleep(100);

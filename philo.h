@@ -14,6 +14,7 @@ typedef struct s_ptr
 	int		t_to_sleep;
 	int		t_start;
 	int		nb_of_mandatory_meals;
+	int		nb_of_plumpy_philos;
 	int		stop_dining_all;
 	int		nb_of_philosophers;
 
