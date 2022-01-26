@@ -166,7 +166,6 @@ if ((*p).ptr->stop_dining_all != 1)
 int main(int argc, char *argv[])
 {
 
-	(void)argc;
 	int i;
 	int j;
 	int l;
@@ -175,24 +174,43 @@ int main(int argc, char *argv[])
 	int			nb_of_philosophers;
 	char *chrono;
 	t_philo		*philos;
+	pthread_t		*P;
+	pthread_mutex_t	*F;
 	t_ptr	*ptr;
 
 	i = 0;
-	nb_of_philosophers = ft_atoi(argv[1]);
+	if ((argc < 5 || argc > 6) || (ft_check_error(argv)) || (ft_check_int_max(argc, argv)))
+	{
+		ft_error("Error\nUsage: nb_philos time_to_die time_to_eat time_to_sleep [nb_mandatory_meals]\n");
+		//printf("Error\n Usage: [nb_philos] [time_to_die] [time_to_eat] [time_to_sleep] [nb_mandatory_^meals]\n");
+		return (1);//a mettre sur la sortie d erreur plutot
+	}
+	nb_of_philosophers = (int)ft_atoi(argv[1]);
 	philos = malloc(sizeof(t_philo) * nb_of_philosophers);
+	P = malloc(sizeof(pthread_t) * nb_of_philosophers);
+	F = malloc(sizeof(pthread_mutex_t) * nb_of_philosophers);
 	ptr = malloc(sizeof(t_ptr) * 1);
 	//syntax blyat: number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
 	(*ptr).nb_of_philosophers = nb_of_philosophers;
-	(*ptr).t_to_die = ft_atoi(argv[2]);
-	(*ptr).t_to_eat = ft_atoi(argv[3]);
+	(*ptr).t_to_die = (int)ft_atoi(argv[2]);
+	(*ptr).t_to_eat = (int)ft_atoi(argv[3]);
 
-	(*ptr).t_to_sleep = ft_atoi(argv[4]);
+	(*ptr).t_to_sleep = (int)ft_atoi(argv[4]);
 	(*ptr).stop_dining_all = 0;
 	if (argc == 6)
-		(*ptr).nb_of_mandatory_meals = ft_atoi(argv[5]);
+	{
+		(*ptr).nb_of_mandatory_meals = (int)ft_atoi(argv[5]);
+		if ((*ptr).nb_of_mandatory_meals <= 0)
+		return (0);//cf sil mettre un msg d erreur ou pas
+	}
 	else {
 		(*ptr).nb_of_mandatory_meals = -1;
 	}
+	if (nb_of_philosophers <= 0 || (*ptr).t_to_die <= 0 || (*ptr).t_to_sleep <= 0 \
+		|| (*ptr).t_to_eat <= 0)
+		return (0);////cf sil mettre un msg d erreur ou pas
+	(*ptr).P = P;
+	(*ptr).F = F;
 	while (i < nb_of_philosophers)
 	{
 		philos[i].ptr = ptr;
@@ -237,7 +255,7 @@ int main(int argc, char *argv[])
 
 
 	j = 0;
-
+//ptr va contenir les adresses de P et F
 	while (j < nb_of_philosophers)//0, 1 , 2 , 3
 	{
 		philos[j].last_meal_time = curr_time();//ou t_start?
@@ -280,5 +298,5 @@ int w;
 	}
 	ft_free_struct_t_philo(&philos);
 
-return 0;
+return (0);
 }

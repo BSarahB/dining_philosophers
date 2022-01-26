@@ -5,7 +5,9 @@ void	ft_biggest_fork(t_philo *p, int n, int smallest_fork, int x)
 	char *chrono_bfork;
 	char *chrono_sfork;
 	char *chrono_eat;
+	pthread_mutex_t *F;
 
+	F = (*p).ptr->F;
 	pthread_mutex_lock(&F[x]);
 	if((*p).ptr->stop_dining_all == 1)
 	{
@@ -43,7 +45,9 @@ void	ft_smallest_fork(t_philo *p, int n, int smallest_fork, int x)
 	char *chrono_bfork;
 	char *chrono_sfork;
 	char *chrono_eat;
+	pthread_mutex_t *F;
 
+	F = (*p).ptr->F;
 	pthread_mutex_lock(&F[smallest_fork]);
 
 	if((*p).ptr->stop_dining_all == 1)

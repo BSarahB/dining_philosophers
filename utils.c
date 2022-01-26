@@ -53,10 +53,10 @@ char	*ft_itoa(int n)
 	return (result);
 }
 
-int	ft_atoi(const char *str)
+long	ft_atoi(const char *str)
 {
-	int	result;
-	int	sign;
+	long	result;
+	long	sign;
 
 	result = 0;
 	sign = 1;

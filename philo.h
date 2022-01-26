@@ -9,14 +9,18 @@
 
 typedef struct s_ptr
 {
-	int		t_to_die;
-	int		t_to_eat;
-	int		t_to_sleep;
-	int		t_start;
-	int		nb_of_mandatory_meals;
-	int		nb_of_plumpy_philos;
-	int		stop_dining_all;
-	int		nb_of_philosophers;
+	int					t_to_die;
+	int					t_to_eat;
+	int					t_to_sleep;
+	int					t_start;
+	int					nb_of_mandatory_meals;
+	int					nb_of_plumpy_philos;
+	int					stop_dining_all;
+	int					nb_of_philosophers;
+	pthread_t			*P;
+	pthread_mutex_t		*F;
+
+
 
 }				t_ptr;
 
@@ -38,14 +42,14 @@ typedef struct s_philo
 # define DEBUG 1;
 
 
-pthread_t P[4];
-pthread_mutex_t F[4];
+//pthread_t P[4];
+//pthread_mutex_t F[4];
 
 void			*ft_start_routine(void *arg);
 void			*ft_start_routine2(void *arg);
 void			ft_smallest_fork(t_philo *p, int n, int smallest_fork, int x);
 void			ft_biggest_fork(t_philo *p, int n, int smallest_fork, int x);
-int				ft_atoi(const char *str);
+long			ft_atoi(const char *str);
 char			*ft_itoa(int n);
 int				find_length(int n);
 void			ft_call_usleep(unsigned int time_in_ms);
@@ -55,6 +59,10 @@ void			print_debug(t_philo *p, char const *s);
 void			ft_free_str(char *str);
 void			ft_free_struct_t_ptr(t_ptr **ptr);
 void			ft_free_struct_t_philo(t_philo **p);
+int				ft_check_error(char **argv);
+void			ft_error(char *const str);
+void			ft_putstr_fd(char *s, int fd);
+int				ft_check_int_max(int argc, char **argv);
 
 
 
