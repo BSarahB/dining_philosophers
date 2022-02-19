@@ -42,8 +42,8 @@ typedef struct s_philo
 # define DEBUG 1;
 
 
-//pthread_t P[4];
-//pthread_mutex_t F[4];
+pthread_t P[4];
+pthread_mutex_t F[4];
 
 void			*ft_start_routine(void *arg);
 void			*ft_start_routine2(void *arg);

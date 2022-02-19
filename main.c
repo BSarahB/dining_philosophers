@@ -128,17 +128,19 @@ if ((*p).ptr->stop_dining_all != 1)
 
 
 }
-
+/*
+ * //MORCEAU DEPLACE dans la fork_ressources.c
 //ft_smallest_fork(p, n, smallest_fork, x);
 if ((*p).ptr->nb_of_mandatory_meals != -1 && (*p).nb_of_dinners == (*p).ptr->nb_of_mandatory_meals)
 {
+	printf("dans la check mandatory meals avec p: %d - avec nb_of_dinners: %d\n", (*p).id, (*p).nb_of_dinners);
 	//lock? et unlock necessaire ou pas?
 	(*p).ptr->nb_of_plumpy_philos++;
 	if ((*p).ptr->nb_of_plumpy_philos == (*p).ptr->nb_of_philosophers)
 		(*p).ptr->stop_dining_all = 1;
 	return (NULL);
 }
-
+*/
 if ((*p).ptr->stop_dining_all != 1)
 {
 	//printf(" curr_philo = %d, value of stop_dinning = %d\n",n, (*p).ptr->stop_dining_all);
@@ -291,11 +293,15 @@ int w;
 		k = pthread_mutex_destroy(&F[p]);//ret 0 si success
 		if (k!=0)
 		{
-			printf("Mutex not Destroyed \n");
+			printf("Mutex not Destroyed for p : %d, meal_count = %d\n", p, philos[p].nb_of_dinners);
+			printf("meal_count_p1 = %d\nmeal_count_p2 = %d\nmeal_count_p3 = %d\nmeal_count p4 = %d\nmeal_count_p5 = %d\n",philos[0].nb_of_dinners,philos[1].nb_of_dinners, philos[2].nb_of_dinners, philos[3].nb_of_dinners, philos[4].nb_of_dinners);
 			exit(1);
 		}
+
 	p++;
 	}
+	printf("meal_count_p1 = %d\nmeal_count_p2 = %d\nmeal_count_p3 = %d\nmeal_count p4 = %d\nmeal_count_p5 = %d\n",philos[0].nb_of_dinners,philos[1].nb_of_dinners, philos[2].nb_of_dinners, philos[3].nb_of_dinners, philos[4].nb_of_dinners);
+
 	ft_free_struct_t_philo(&philos);
 
 return (0);

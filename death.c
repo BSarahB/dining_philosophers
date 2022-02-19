@@ -26,6 +26,8 @@ void	*ft_start_routine2(void *arg)
 			//Once main returns (or exits) the OS will reap all your threads and destroy your process.
 			chrono_death = ft_itoa((int)(curr_time() - (*p).ptr->t_start));
 			printf("%s %d died\n", chrono_death, (*p).id);
+			printf("p : %d, meal_count = %d\n", (*p).id, (*p).nb_of_dinners);
+
 			ft_free_str(chrono_death);
 			//print_debug(p, "mutex of death locked after death\n");
 
