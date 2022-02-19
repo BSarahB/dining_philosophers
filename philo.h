@@ -1,13 +1,12 @@
 ﻿#ifndef PHILO_H
 # define PHILO_H
-
 #include <unistd.h>//usleep
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <sys/time.h>//gettimeofday
 
-typedef struct s_ptr
+typedef struct s_utils
 {
 	int					t_to_die;
 	int					t_to_eat;
@@ -19,11 +18,7 @@ typedef struct s_ptr
 	int					nb_of_philosophers;
 	pthread_t			*P;
 	pthread_mutex_t		*F;
-
-
-
-}				t_ptr;
-
+}				t_utils;
 
 typedef struct s_philo
 {
@@ -31,19 +26,10 @@ typedef struct s_philo
 	int			id;
 	int			flag_last_philosopher;
 	int			nb_of_dinners;
-	t_ptr		*ptr;
+	t_utils		*ptr;
 	int			last_meal_time;
 	pthread_t	D;
-
-
 }				t_philo;
-
-
-# define DEBUG 1;
-
-
-pthread_t P[4];
-pthread_mutex_t F[4];
 
 void			*ft_start_routine(void *arg);
 void			*ft_start_routine2(void *arg);
@@ -57,13 +43,17 @@ unsigned int	curr_time(void);
 void			*ft_call_death_check(t_philo *p);
 void			print_debug(t_philo *p, char const *s);
 void			ft_free_str(char *str);
-void			ft_free_struct_t_ptr(t_ptr **ptr);
+void			ft_free_struct_t_ptr(t_utils **ptr);
 void			ft_free_struct_t_philo(t_philo **p);
+int				ft_check_validity(int argc, char *argv[]);
+int				ft_check_validity2(int argc, char *argv[], t_utils *ptr);
 int				ft_check_error(char **argv);
+int				ft_check_int_max(int argc, char **argv);
+void			ft_init_ptr(t_utils *ptr, char *argv[], pthread_t *P, pthread_mutex_t *F);
+int				ft_mandatory_meals(int argc, char *argv[], t_utils *ptr);
+void			ft_init_philosophers(t_philo *philos, t_utils *ptr);
 void			ft_error(char *const str);
 void			ft_putstr_fd(char *s, int fd);
-int				ft_check_int_max(int argc, char **argv);
-
-
+int				ft_only_one_philo(t_utils *ptr, t_philo *philos);
 
 #endif

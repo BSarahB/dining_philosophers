@@ -9,8 +9,7 @@ void	ft_free_str(char *str)
 	}
 }
 
-
-void	ft_free_struct_t_ptr(t_ptr **ptr)
+void	ft_free_struct_t_ptr(t_utils **ptr)
 {
 	if (*ptr != NULL)
 	{
@@ -18,8 +17,6 @@ void	ft_free_struct_t_ptr(t_ptr **ptr)
 		*ptr = NULL;
 	}
 }
-
-
 
 void	ft_free_struct_t_philo(t_philo **p)
 {

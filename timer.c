@@ -21,7 +21,6 @@ unsigned int	curr_time(void)
 
 void	ft_call_usleep(unsigned int time_in_ms)
 {
-
 	unsigned int	start_time;
 	int				nb_intervals;
 	unsigned int	last_interval_ms;
@@ -29,23 +28,18 @@ void	ft_call_usleep(unsigned int time_in_ms)
 	start_time = curr_time();
 	nb_intervals = 1;
 	last_interval_ms = 0;
-
 	if (time_in_ms > 1000)
 	{
 		nb_intervals = time_in_ms / 1000;
 		last_interval_ms = time_in_ms % 1000;
-
 		while(((curr_time() - start_time) < time_in_ms) && nb_intervals > 0 ) // 100 - 10ms < 200ms
 		{
 			usleep(1000000);
 			nb_intervals --;
 		}
 		if ((curr_time() - start_time) < time_in_ms)
-		{
 			usleep(last_interval_ms * 1000);
-		}
 	}
-
 	else
 		usleep(time_in_ms * 1000);
 }
