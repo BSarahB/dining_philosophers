@@ -77,8 +77,8 @@ int	ft_mutex_init(t_utils *ptr, pthread_mutex_t *F)
 		if (k == -1)
 		{
 			printf("Mutex initialization failed\n");
-			//TODO ft_free_struct_t_philo(&philos) / free les mallocs des threads P/ free les mallocs des mutex F
-			// detruire les mutex ayant ete initialises restant/ free ptr
+			//TODO ft_free_struct_t_philo(&philos) / free les mallocs des threads P/ free les mallocs des mutex F/ free ptr
+			// detruire les mutex ayant ete initialises restant
 			//Q Nani
 			exit(1);
 		}
@@ -113,6 +113,7 @@ int main(int argc, char *argv[])
 	ft_thread_join(ptr, P);
 	ft_mutex_destroy(ptr, philos, F);
 	//printf("meal_count_p1 = %d\nmeal_count_p2 = %d\nmeal_count_p3 = %d\nmeal_count p4 = %d\nmeal_count_p5 = %d\n",philos[0].nb_of_dinners,philos[1].nb_of_dinners, philos[2].nb_of_dinners, philos[3].nb_of_dinners, philos[4].nb_of_dinners);
+	//TODO ft_free_struct_t_philo(&philos) / free les mallocs des threads P/ free les mallocs des mutex F/ free ptr
 	ft_free_struct_t_philo(&philos);
 	return (0);
 }
