@@ -12,6 +12,8 @@ int	ft_mutex_destroy(t_utils *ptr, t_philo *philos, pthread_mutex_t *F)
 		if (k!=0)
 		{
 			printf("Mutex not Destroyed for p : %d, meal_count = %d\n", p, philos[p].nb_of_dinners);
+			//TODO ft_free_struct_t_philo(&philos) / free les mallocs des threads P/ free les mallocs des mutex F / destroy les mutex / free ptr
+			//Q : voir le ret si dest necessaire des mutex restant(man)
 			//printf("meal_count_p1 = %d\nmeal_count_p2 = %d\nmeal_count_p3 = %d\nmeal_count p4 = %d\nmeal_count_p5 = %d\n",philos[0].nb_of_dinners,philos[1].nb_of_dinners, philos[2].nb_of_dinners, philos[3].nb_of_dinners, philos[4].nb_of_dinners);
 			exit(1);
 		}
@@ -31,6 +33,8 @@ int	ft_thread_join(t_utils *ptr,pthread_t *P)
 		w = pthread_join(P[l], NULL);// pthread_join(P[i], &msg) //Cette fonction force le programme principal a attendre jusqu'à ce que le thread en background appelé ait fini d'exécuter sa tâche.
 		if (w != 0)
 		{
+			//TODO ft_free_struct_t_philo(&philos) / free les mallocs des threads P/ free les mallocs des mutex F / destroy les mutex / free ptr
+			//Q NANI voir sil est necessaire de exit en cas de probleme du join...
 			printf("Thread join failed \n");
 			exit(1);
 		}
@@ -51,6 +55,8 @@ int	ft_thread_create(t_utils *ptr, t_philo *philos, pthread_t *P)
 		k = pthread_create(&P[j], NULL, (void *)ft_start_routine, &philos[j]);//P[0, 1, 2, 3]
 		if (k != 0)
 		{
+			//TODO ft_free_struct_t_philo(&philos) / free les mallocs des threads P/ free les mallocs des mutex F / destroy les mutex / free ptr
+			//Q : voir le ret si dest necessaire des threads crees(man)
 			printf("Thread creation error \n");
 			exit(1);
 		}
@@ -71,6 +77,9 @@ int	ft_mutex_init(t_utils *ptr, pthread_mutex_t *F)
 		if (k == -1)
 		{
 			printf("Mutex initialization failed\n");
+			//TODO ft_free_struct_t_philo(&philos) / free les mallocs des threads P/ free les mallocs des mutex F
+			// detruire les mutex ayant ete initialises restant/ free ptr
+			//Q Nani
 			exit(1);
 		}
 		i++;

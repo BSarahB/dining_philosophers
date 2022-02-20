@@ -35,10 +35,18 @@ int	ft_mandatory_meals(int argc, char *argv[], t_utils *ptr)
 int	ft_check_validity2(int argc, char *argv[], t_utils *ptr)
 {
 	if (ft_mandatory_meals(argc, argv, ptr))
+	{
+		//TODO ft_free_struct_t_philo(&philos) / free les threads P/ free les mutex F / free ptr
+		//msg d erreur
 		return (1);// gerer le return et sortir proprement TODO
+	}
 	if ((*ptr).nb_of_philosophers <= 0 || (*ptr).t_to_die <= 0 || \
 		(*ptr).t_to_sleep <= 0 || (*ptr).t_to_eat <= 0)
+	{
+		//TODO ft_free_struct_t_philo(&philos) / free les mallocs des threads P/ free les mallocs des mutex F / free ptr
+		//msg d erreur
 		return (1);////cf sil mettre un msg d erreur ou pas
+	}
 	return (0);
 }
 void	ft_init_ptr(t_utils *ptr, char *argv[], pthread_t *P, pthread_mutex_t *F)
@@ -55,6 +63,8 @@ int	ft_check_validity(int argc, char *argv[])
 {
 	if ((argc < 5 || argc > 6) || (ft_check_error(argv)) || (ft_check_int_max(argc, argv)))
 	{
+		//TODO ft_free_struct_t_philo(&philos) / free les mallocs threads P/ free les mallocs mutex F / free ptr
+		//msg d erreur
 		ft_error("Error\nUsage: nb_philos time_to_die time_to_eat time_to_sleep [nb_mandatory_meals]\n");
 		return (1);//TODO
 	}
