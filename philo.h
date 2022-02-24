@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <sys/time.h>//gettimeofday
+#include <stdarg.h>
 
 #define PRINT_DEBUG
 void ft_printf(const char * format, ...);
