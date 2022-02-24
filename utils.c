@@ -7,8 +7,7 @@ void print_debug(t_philo *p, char const *s)
 	int n;
 
 	n = (*p).id;
-	printf("%d %s", n, s);
-	fflush(stdout);
+    ft_printf("%d %s", n, s);
 #endif
 }
 */

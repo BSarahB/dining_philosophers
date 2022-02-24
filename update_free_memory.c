@@ -1,16 +1,29 @@
 #include "philo.h"
 
-void	ft_free_str(char *str)
+void	ft_free_malloc_threads_P(pthread_t *P)
 {
-	if (str != NULL)
+	if (P != NULL)
 	{
-		free(str);
-		str = NULL;
+		free(P);
+		P = NULL;
+	}
+}
+
+void	ft_free_malloc_mutex_F(pthread_mutex_t *F)
+{
+	if (F != NULL)
+	{
+		free(F);
+		F = NULL;
 	}
 }
 
 void	ft_free_struct_t_ptr(t_utils **ptr)
 {
+	ft_free_malloc_mutex_F((*ptr)->F);
+	ft_free_malloc_threads_P((*ptr)->P);
+	ft_free_malloc_threads_P((*ptr)->D);
+
 	if (*ptr != NULL)
 	{
 		free(*ptr);
@@ -27,3 +40,24 @@ void	ft_free_struct_t_philo(t_philo **p)
 		*p = NULL;
 	}
 }
+
+
+void	ft_free_struct_t_philo_only(t_philo **p)
+{
+	if (*p != NULL)
+	{
+		free(*p);
+		*p = NULL;
+	}
+}
+
+void	ft_free_str(char *str)
+{
+	if (str != NULL)
+	{
+		free(str);
+		str = NULL;
+	}
+}
+
+
