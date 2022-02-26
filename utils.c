@@ -1,6 +1,29 @@
 #include "philo.h"
+
+void ft_printf(const char * format, ...)
+{
+#ifdef PRINT_DEBUG
+	va_list argptr;
+	va_start(argptr, format);
+	vfprintf(stderr, format, argptr);
+	va_end(argptr);
+	fflush(stdout);
+#endif
+}
+
+
+void ft_printf_debug(const char * format, ...)
+{
+#ifdef PRINT_DEBUG
+	va_list argptr;
+	va_start(argptr, format);
+	vfprintf(stderr, format, argptr);
+	va_end(argptr);
+	fflush(stdout);
+#endif
+}
 /*
-void print_debug(t_philo *p, char const *s)
+void ft_print_debug(t_philo *p, char const *s)
 {
 	//ne sera compile pas juste execute, que si debug == qq chose , soit deifni
 #ifdef DEBUG

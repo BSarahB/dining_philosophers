@@ -43,3 +43,29 @@ void	ft_call_usleep(unsigned int time_in_ms)
 	else
 		usleep(time_in_ms * 1000);
 }
+
+unsigned int	ft_calculate_time_to_exec_function(void)
+{
+	static unsigned int mem_time = 0;
+	//est ce qu on appel la 1 ere ou 2 ee fois
+	static unsigned int first_time = 1;
+	//la 1ere fois ils seront tous les 2 a zero
+	unsigned int current_time;
+	unsigned int measured_time;
+	//est ce la premiere fois?
+	if(first_time == 1)
+	{
+		mem_time = curr_time();
+		first_time = 0;
+		return(0);
+	}
+	else {
+		current_time = curr_time();
+		measured_time =  current_time - mem_time;
+		ft_printf("le temps ecoule en ms : %u\n", measured_time);
+		first_time = 1;
+		return(measured_time);
+
+	}
+
+}
