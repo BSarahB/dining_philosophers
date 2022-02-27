@@ -170,7 +170,10 @@ int main(int argc, char *argv[])
 	ptr = ft_struct_init(&ptr);
 	//ptr = malloc(sizeof(t_utils) * 1);
 	//printf("&(ptr)->nb_of_philosophers : %p, sa valeur : %d\n",&(ptr)->nb_of_philosophers, (ptr)->nb_of_philosophers);
-
+//TODO: proteger les mallocs
+//TODO rajouter ft_printf
+	//TODO : destroy les mutex de la structure philos
+	//TODO changer le nom affreux de la strcuture ptr.... en structure struc par ex....
 
 
 	(*ptr).nb_of_philosophers = (int)ft_atoi(argv[1]);//set_nb_of_philosophers(ptr,(int)ft_atoi(argv[1]));
