@@ -18,6 +18,8 @@ int	ft_mutex_destroy(t_utils *ptr, t_philo *philos, pthread_mutex_t *F, int p)
 	}
 	pthread_mutex_destroy(&ptr->mutex_stop);
 	pthread_mutex_destroy(&ptr->mutex666);
+	pthread_mutex_destroy(&ptr->mutex_protect);
+	pthread_mutex_destroy(&philos->mutex_protect);
 	return (0);
 }
 
@@ -87,6 +89,10 @@ int	ft_mutex_init(t_utils *ptr, pthread_mutex_t *F, t_philo *philos)
 	int k;
 
 	i = 0;
+	pthread_mutex_init(&ptr->mutex_stop, NULL);
+	pthread_mutex_init(&ptr->mutex666, NULL);
+	pthread_mutex_init(&ptr->mutex_protect, NULL);
+
 	while (i < get_nb_of_philosophers(ptr))
 	{
 		k = pthread_mutex_init(&F[i], NULL);
@@ -98,15 +104,14 @@ int	ft_mutex_init(t_utils *ptr, pthread_mutex_t *F, t_philo *philos)
 		}
 		i++;
 	}
-	pthread_mutex_init(&ptr->mutex_stop, NULL);
-	pthread_mutex_init(&ptr->mutex666, NULL);
+
 	return (0);
 }
 
 
 t_utils	*ft_struct_init(t_utils **ptr)
 {
-	/*
+/*
 	ptr = malloc(sizeof(t_utils) * 1);
 	*ptr = (t_format_code *)malloc(sizeof(t_format_code));
 	if (!(ptr))
@@ -119,14 +124,15 @@ t_utils	*ft_struct_init(t_utils **ptr)
 	(ptr)->nb_of_mandatory_meals = 0;
 	(ptr)->nb_of_plumpy_philos = 0;
 	(ptr)->stop_dining_all = 0;
-	(ptr)->nb_of_philosophers = 0;
+	(ptr)->nb_of_philosophers = NULL;
 	(ptr)->flag_already_died = 0;
 	(ptr)->P = NULL;
 	(ptr)->D = NULL;
 	return (ptr);
-	*/
 
+*/
 	*ptr = malloc(sizeof(t_utils) * 1);
+
 	if (!(*ptr))
 		return (0);
 	(*ptr)->t_to_sleep = 0;
@@ -140,9 +146,15 @@ t_utils	*ft_struct_init(t_utils **ptr)
 	(*ptr)->flag_already_died = 0;
 	(*ptr)->P = NULL;
 	(*ptr)->D = NULL;
-	return (*ptr);
-}
+	//pthread_mutex_init(&(*ptr)->mutex_protect, NULL);
 
+
+
+
+	return (*ptr);
+
+
+}
 
 
 int main(int argc, char *argv[])
@@ -156,19 +168,29 @@ int main(int argc, char *argv[])
 	if(ft_check_validity(argc, argv))
 		return (1);
 	ptr = ft_struct_init(&ptr);
-	set_nb_of_philosophers(ptr,(int)ft_atoi(argv[1]));
-	philos = malloc(sizeof(t_philo) * get_nb_of_philosophers(ptr));
-	P = malloc(sizeof(pthread_t) * get_nb_of_philosophers(ptr));
-	D = malloc(sizeof(pthread_t) * get_nb_of_philosophers(ptr));
-	F = malloc(sizeof(pthread_mutex_t) * get_nb_of_philosophers(ptr));
-	ft_init_ptr(ptr, argv, P,D, F);
+	//ptr = malloc(sizeof(t_utils) * 1);
+	//printf("&(ptr)->nb_of_philosophers : %p, sa valeur : %d\n",&(ptr)->nb_of_philosophers, (ptr)->nb_of_philosophers);
+
+
+
+	(*ptr).nb_of_philosophers = (int)ft_atoi(argv[1]);//set_nb_of_philosophers(ptr,(int)ft_atoi(argv[1]));
+	//printf("&(ptr)->nb_of_philosophers : %p , valeur : %d\n",&(ptr)->nb_of_philosophers,(ptr)->nb_of_philosophers);
+
+	philos = malloc(sizeof(t_philo) * (*ptr).nb_of_philosophers);// get_nb_of_philosophers(ptr));
+	P = malloc(sizeof(pthread_t) * (*ptr).nb_of_philosophers); //get_nb_of_philosophers(ptr));
+	D = malloc(sizeof(pthread_t) * (*ptr).nb_of_philosophers); //get_nb_of_philosophers(ptr));
+	F = malloc(sizeof(pthread_mutex_t) * (*ptr).nb_of_philosophers);//get_nb_of_philosophers(ptr));
+	if (ft_mutex_init(ptr, F, philos))
+		return (1);
+	ft_init_ptr(ptr, argv, P, D, F);
 	if(ft_check_validity2(argc, argv, ptr, philos))
 		return(1);
 	ft_init_philosophers(philos, ptr);
 	set_t_start(ptr,curr_time());
-	if (ft_only_one_philo(ptr, philos))
+	/*if (ft_mutex_init(ptr, F, philos))
 		return (1);
-	if (ft_mutex_init(ptr, F, philos))
+		*/
+	if (ft_only_one_philo(ptr, philos))
 		return (1);
 	if (ft_thread_create(ptr, philos, P, D))
 		return (1);

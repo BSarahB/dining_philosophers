@@ -24,7 +24,6 @@ void	*ft_start_routine666(void *arg)
 			pthread_mutex_unlock(&(*p).ptr->mutex666);
 		stop = get_stop_dining_all(p->ptr) + get_stop_dining_all_p(p);
 	}
-	//ft_printf_debug("D%d DETACHED END\n",(*p).id);
 	return (NULL);
 }
 

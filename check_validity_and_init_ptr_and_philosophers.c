@@ -5,11 +5,15 @@ void	ft_init_philosophers(t_philo *philos, t_utils *ptr)
 	int i;
 
 	i = 0;
+
+
 	while (i < get_nb_of_philosophers(ptr))
 	{
+		pthread_mutex_init(&philos[i].mutex_protect, NULL);
 		philos[i].ptr = ptr;
 		set_nb_of_dinners(&philos[i],0);
 		set_id(&philos[i],i+1);
+		set_stop_dining_all_p(&philos[i], 0);
 		if (i == (get_nb_of_philosophers(ptr) - 1))
 			set_flag_last_philosopher(&philos[i],1);
 		else

@@ -5,21 +5,29 @@ int read_protected_int(pthread_mutex_t *mutex, int *var)
 	return (*read_protected_int_star(mutex, var));
 }
 
-int *read_protected_int_star(pthread_mutex_t * mutex, int *var)
+int *read_protected_int_star(pthread_mutex_t *mutex, int *var)
 {
 	int *value ;
 
-	value = NULL;
+	//value = NULL;
 	pthread_mutex_lock(mutex);
 	value = var;
 	pthread_mutex_unlock(mutex);
 	return (value);
 }
 
+
+void write_protected_int_version2(pthread_mutex_t *mutex, int *var, const int value)
+{
+	pthread_mutex_lock(mutex);
+	*var = value;
+	pthread_mutex_unlock(mutex);
+}
+
 void write_protected_int(pthread_mutex_t *mutex, int *var, const int value)
 {
 	pthread_mutex_lock(mutex);
-	*var = value ;
+	*var = value;
 	pthread_mutex_unlock(mutex);
 }
 
@@ -30,7 +38,7 @@ pthread_t read_protected_pthread_t(pthread_mutex_t *mutex, pthread_t *var)
 
 pthread_t *read_protected_pthread_t_star(pthread_mutex_t * mutex, pthread_t *var)
 {
-	pthread_t *value ;
+	pthread_t *value;
 
 	pthread_mutex_lock(mutex);
 	value = var;
@@ -41,7 +49,7 @@ pthread_t *read_protected_pthread_t_star(pthread_mutex_t * mutex, pthread_t *var
 void write_protected_pthread_t(pthread_mutex_t *mutex, pthread_t *var, const pthread_t value)
 {
 	pthread_mutex_lock(mutex);
-	*var = value ;
+	*var = value;
 	pthread_mutex_unlock(mutex);
 }
 
@@ -63,7 +71,7 @@ t_utils *read_protected_t_utils_star(pthread_mutex_t *mutex, t_utils *var)
 void write_protected_t_utils(pthread_mutex_t * mutex, t_utils *var, const t_utils value)
 {
 	pthread_mutex_lock(mutex);
-	*var = value ;
+	*var = value;
 	pthread_mutex_unlock(mutex);
 }
 
@@ -101,6 +109,12 @@ int	get_stop_dining_all(t_utils *ptr)
 {
 	return (read_protected_int(&ptr->mutex_protect,&ptr->stop_dining_all));
 }
+/*
+int	get_nb_of_philosophers(t_utils *ptr)
+{
+	return (read_protected_int(&ptr->mutex_protect,ptr->nb_of_philosophers));
+}
+*/
 
 int	get_nb_of_philosophers(t_utils *ptr)
 {
@@ -146,6 +160,12 @@ void set_stop_dining_all(t_utils *ptr, int value)
 {
 	write_protected_int(&ptr->mutex_protect, &ptr->stop_dining_all, value);
 }
+/*
+void set_nb_of_philosophers(t_utils *ptr, int value)
+{
+	write_protected_int(&ptr->mutex_protect, ptr->nb_of_philosophers, value);
+}
+*/
 
 void set_nb_of_philosophers(t_utils *ptr, int value)
 {

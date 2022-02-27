@@ -67,6 +67,8 @@ void *ft_start_routine(void *arg)
 
 	stop = 0;
 	p = (t_philo *)arg;
+
+
 	//ft_printf_debug("P%d after ft_call_death in start_routine\n",get_id(p));
 	while(stop == 0)
 	{
