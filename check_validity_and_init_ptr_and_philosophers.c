@@ -1,9 +1,27 @@
-﻿#include "philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_validity_and_init_ptr_and_philosoph          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbenmesb <mbenmesb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/28 05:13:54 by mbenmesb          #+#    #+#             */
+/*   Updated: 2022/02/28 05:14:03 by mbenmesb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#include "philo.h"
+
+void	ft_free_separately(t_philo *philos, t_utils *ptr)
+{
+	ft_mutex_destroy(ptr, philos, ptr->forks, 0);
+	ft_free_struct_t_ptr(&ptr);
+	ft_free_struct_t_philo_only(&philos);
+}
 
 int	ft_init_philosophers(t_philo *philos, t_utils *ptr)
 {
-	int i;
-	int k;
+	int	i;
+	int	k;
 
 	i = 0;
 	k = 0;
@@ -13,19 +31,17 @@ int	ft_init_philosophers(t_philo *philos, t_utils *ptr)
 		if (k == -1)
 		{
 			printf("Mutex_protect philos[i] initialization failed\n");
-			ft_mutex_destroy(ptr, philos, ptr->forks, 0);
-			ft_free_struct_t_ptr(&ptr);
-			ft_free_struct_t_philo_only(&philos);
+			ft_free_separately(philos, ptr);
 			return (1);
 		}
 		philos[i].ptr = ptr;
-		set_nb_of_dinners(&philos[i],0);
-		set_id(&philos[i],i+1);
+		set_nb_of_dinners(&philos[i], 0);
+		set_id(&philos[i], i + 1);
 		set_stop_dining_all_p(&philos[i], 0);
 		if (i == (get_nb_of_philosophers(ptr) - 1))
-			set_flag_last_philosopher(&philos[i],1);
+			set_flag_last_philosopher(&philos[i], 1);
 		else
-			set_flag_last_philosopher(&philos[i],0);
+			set_flag_last_philosopher(&philos[i], 0);
 		i++;
 	}
 	return (0);
@@ -35,12 +51,12 @@ int	ft_mandatory_meals(int argc, char *argv[], t_utils *ptr)
 {
 	if (argc == 6)
 	{
-		set_nb_of_mandatory_meals(ptr,(int)ft_atoi(argv[5]));
+		set_nb_of_mandatory_meals(ptr, (int)ft_atoi(argv[5]));
 		if (get_nb_of_mandatory_meals(ptr) <= 0)
 			return (1);
 	}
 	else
-		set_nb_of_mandatory_meals(ptr,-1);
+		set_nb_of_mandatory_meals(ptr, -1);
 	return (0);
 }
 
@@ -64,18 +80,6 @@ int	ft_check_validity2(int argc, char *argv[], t_utils *ptr, t_philo *philos)
 		return (1);
 	}
 	return (0);
-}
-void	ft_init_ptr(t_utils *ptr, char *argv[], pthread_t *P,pthread_t *D, \
-					pthread_mutex_t *F)
-{
-	set_t_to_die(ptr,(int)ft_atoi(argv[2]));
-	set_t_to_eat(ptr,(int)ft_atoi(argv[3]));
-	set_t_to_sleep(ptr,(int)ft_atoi(argv[4]));
-	set_stop_dining_all(ptr,0);
-	set_flag_already_died(ptr,0);
-	(*ptr).th_p = P;
-	(*ptr).forks = F;
-	(*ptr).th_d = D;
 }
 
 int	ft_check_validity(int argc, char *argv[])

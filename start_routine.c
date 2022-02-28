@@ -1,12 +1,12 @@
-﻿/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   start_routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbenmesb <mbenmesb@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/28 04:38:01 by mbenmesb          #+#    #+#             */
-/*   Updated: 2022/02/28 04:38:14 by mbenmesb         ###   ########.fr       */
+/*   Created: 2022/02/28 05:23:04 by mbenmesb          #+#    #+#             */
+/*   Updated: 2022/02/28 05:23:11 by mbenmesb         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "philo.h"
@@ -32,8 +32,8 @@ void	ft_redirect_philosopher_to_fork(t_philo *p, int n, int smallest_fork, \
 
 void	ft_sleep_and_think(t_philo *p)
 {
-	char *chrono_sleep;
-	char *chrono_think;
+	char	*chrono_sleep;
+	char	*chrono_think;
 
 	chrono_sleep = ft_itoa((int)(curr_time() - get_t_start(p->ptr)));
 	ft_call_ft_printf(p, 'S', chrono_sleep);
@@ -46,7 +46,7 @@ void	ft_sleep_and_think(t_philo *p)
 	ft_free_str(chrono_think);
 }
 
-void	ft_positioning_forks_and_philos(t_philo *p)
+void	*ft_positioning_forks_and_philos(t_philo *p)
 {
 	int		n;
 	int		big_fork;
@@ -69,12 +69,13 @@ void	ft_positioning_forks_and_philos(t_philo *p)
 		pthread_mutex_lock(&(*p).ptr->mutex_printf);
 		set_stop_dining_all_p(p, 1);
 		pthread_mutex_unlock(&(*p).ptr->mutex_printf);
-		return;
+		return (NULL);
 	}
 	ft_sleep_and_think(p);
+	return (NULL);
 }
 
-void *ft_start_routine(void *arg)
+void	*ft_start_routine(void *arg)
 {
 	t_philo	*p;
 	int		stop;

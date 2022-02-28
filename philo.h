@@ -64,6 +64,7 @@ void			ft_free_struct_t_ptr(t_utils **ptr);
 void			ft_free_struct_t_philo_only(t_philo **p);
 void			ft_free_malloc_mutex_f(pthread_mutex_t *forks);
 void			ft_free_malloc_threads_p(pthread_t *th_p);
+void			ft_free_separately(t_philo *philos, t_utils *ptr);
 int				ft_check_validity(int argc, char *argv[]);
 int				ft_check_validity2(int argc, char *argv[], t_utils *ptr, \
 								t_philo *philos);
