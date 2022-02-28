@@ -1,4 +1,4 @@
-﻿#ifndef PHILO_H
+#ifndef PHILO_H
 # define PHILO_H
 #include <unistd.h>//usleep
 #include <stdio.h>
@@ -8,7 +8,6 @@
 #include <stdarg.h>
 
 #define PRINT_DEBUG
-void ft_printf(const char * format, ...);
 
 typedef struct s_utils
 {
@@ -26,13 +25,11 @@ typedef struct s_utils
 	pthread_mutex_t		*F;
 	pthread_mutex_t		mutex_protect;
 	pthread_mutex_t		mutex666;
-	pthread_mutex_t		mutex_stop;
-
+	pthread_mutex_t		mutex_printf;
 }						t_utils;
 
 typedef struct s_philo
 {
-
 	int					id;
 	int					flag_last_philosopher;
 	int					nb_of_dinners;
@@ -40,7 +37,6 @@ typedef struct s_philo
 	t_utils				*ptr;
 	int					last_meal_time;
 	pthread_mutex_t		mutex_protect;
-
 }						t_philo;
 
 
@@ -52,7 +48,6 @@ char			*ft_itoa(int n);
 int				find_length(int n);
 void			ft_call_usleep(unsigned int time_in_ms);
 unsigned int	curr_time(void);
-void			*ft_call_death_check(t_philo *p);
 void			ft_free_str(char *str);
 void			ft_free_struct_t_philo(t_philo **p);
 void			ft_free_struct_t_ptr(t_utils **ptr);
@@ -63,21 +58,22 @@ int				ft_check_validity(int argc, char *argv[]);
 int				ft_check_validity2(int argc, char *argv[], t_utils *ptr,t_philo *philos);
 int				ft_check_error(char **argv);
 int				ft_check_int_max(int argc, char **argv);
+int				ft_check_malloc_ptr(t_utils *ptr);
+int				ft_check_malloc_philos(t_philo *philos, t_utils *ptr);
 void			ft_init_ptr(t_utils *ptr, char *argv[], pthread_t *P, pthread_t *D, pthread_mutex_t *F);
 int				ft_mandatory_meals(int argc, char *argv[], t_utils *ptr);
-void			ft_init_philosophers(t_philo *philos, t_utils *ptr);
+int				ft_init_philosophers(t_philo *philos, t_utils *ptr);
 void			ft_error(char *const str);
 void			ft_putstr_fd(char *s, int fd);
 int				ft_only_one_philo(t_utils *ptr, t_philo *philos);
 int				ft_mutex_init(t_utils *ptr, pthread_mutex_t *F, t_philo *philos);
+int				ft_thread_generate(t_philo *philos, t_utils *ptr);
 int				ft_thread_create(t_utils *ptr, t_philo *philos, pthread_t *P, pthread_t *D);
 int				ft_thread_join(t_utils *ptr, pthread_t *P, pthread_t *D, t_philo *philos);
 int				ft_mutex_destroy(t_utils *ptr, t_philo *philos, pthread_mutex_t *F, int p);
 void			*ft_start_routine666(void *arg);
 void			ft_call_ft_printf(t_philo *p, char c, char *chrono);
 unsigned int	ft_calculate_time_to_exec_function(void);
-void			ft_printf(const char * format, ...);
-void			ft_printf_debug(const char * format, ...);
 int				read_protected_int(pthread_mutex_t * mutex, int * var);
 int				*read_protected_int_star(pthread_mutex_t * mutex, int *var);
 void			write_protected_int(pthread_mutex_t * mutex, int * var, const int value);

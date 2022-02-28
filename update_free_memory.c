@@ -41,7 +41,6 @@ void	ft_free_struct_t_philo(t_philo **p)
 	}
 }
 
-
 void	ft_free_struct_t_philo_only(t_philo **p)
 {
 	if (*p != NULL)
@@ -59,5 +58,3 @@ void	ft_free_str(char *str)
 		str = NULL;
 	}
 }
-
-

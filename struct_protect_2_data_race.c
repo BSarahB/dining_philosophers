@@ -1,33 +1,11 @@
 #include "philo.h"
 
-int read_protected_int(pthread_mutex_t *mutex, int *var)
-{
-	return (*read_protected_int_star(mutex, var));
-}
-
-int *read_protected_int_star(pthread_mutex_t *mutex, int *var)
-{
-	int *value ;
-
-	pthread_mutex_lock(mutex);
-	value = var;
-	pthread_mutex_unlock(mutex);
-	return (value);
-}
-
-void write_protected_int(pthread_mutex_t *mutex, int *var, const int value)
-{
-	pthread_mutex_lock(mutex);
-	*var = value;
-	pthread_mutex_unlock(mutex);
-}
-
 pthread_t read_protected_pthread_t(pthread_mutex_t *mutex, pthread_t *var)
 {
 	return (*read_protected_pthread_t_star(mutex, var));
 }
 
-pthread_t *read_protected_pthread_t_star(pthread_mutex_t * mutex, pthread_t *var)
+pthread_t *read_protected_pthread_t_star(pthread_mutex_t *mutex, pthread_t *var)
 {
 	pthread_t *value;
 
@@ -57,11 +35,4 @@ t_utils *read_protected_t_utils_star(pthread_mutex_t *mutex, t_utils *var)
 	value = var;
 	pthread_mutex_unlock(mutex);
 	return (value);
-}
-
-void write_protected_t_utils(pthread_mutex_t * mutex, t_utils *var, const t_utils value)
-{
-	pthread_mutex_lock(mutex);
-	*var = value;
-	pthread_mutex_unlock(mutex);
 }
