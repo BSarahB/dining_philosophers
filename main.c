@@ -44,7 +44,7 @@ int	ft_thread_join(t_utils *ptr, pthread_t *P,  pthread_t *D, t_philo *philos)
 			printf("Thread D join failed \n");
 		if (w || ww)
 		{
-			ft_mutex_destroy(ptr, philos, (*ptr).F, 0);
+			ft_mutex_destroy(ptr, philos, (*ptr).forks, 0);
 			ft_free_struct_t_philo(&philos);
 			return(1);
 		}
@@ -66,7 +66,7 @@ int	ft_thread_create(t_utils *ptr, t_philo *philos, pthread_t *P, pthread_t *D)
 		if (k != 0)
 		{
 			ft_error("Thread creation error \n");
-			ft_mutex_destroy(ptr, philos, (*ptr).F, 0);
+			ft_mutex_destroy(ptr, philos, (*ptr).forks, 0);
 			ft_free_struct_t_philo(&philos);
 			return (1);
 		}
@@ -74,7 +74,7 @@ int	ft_thread_create(t_utils *ptr, t_philo *philos, pthread_t *P, pthread_t *D)
 		if (k != 0)
 		{
 			printf("Thread creation error \n");
-			ft_mutex_destroy(ptr, philos, (*ptr).F, 0);
+			ft_mutex_destroy(ptr, philos, (*ptr).forks, 0);
 			ft_free_struct_t_philo(&philos);
 			return (1);
 		}
@@ -130,13 +130,13 @@ t_utils	*ft_struct_init(t_utils **ptr, char *argv[])
 	(*ptr)->nb_of_plumpy_philos = 0;
 	(*ptr)->stop_dining_all = 0;
 	(*ptr)->flag_already_died = 0;
-	(*ptr)->P = NULL;
-	(*ptr)->D = NULL;
-	(*ptr)->F = NULL;
-	(*ptr)->P = malloc(sizeof(pthread_t) * (*ptr)->nb_of_philosophers);
-	(*ptr)->D = malloc(sizeof(pthread_t) * (*ptr)->nb_of_philosophers);
-	(*ptr)->F = malloc(sizeof(pthread_mutex_t) * (*ptr)->nb_of_philosophers);
-	if ((!(*ptr)->P) || (!(*ptr)->D) || (!(*ptr)->F))
+	(*ptr)->th_p = NULL;
+	(*ptr)->th_d = NULL;
+	(*ptr)->forks = NULL;
+	(*ptr)->th_p = malloc(sizeof(pthread_t) * (*ptr)->nb_of_philosophers);
+	(*ptr)->th_d = malloc(sizeof(pthread_t) * (*ptr)->nb_of_philosophers);
+	(*ptr)->forks = malloc(sizeof(pthread_mutex_t) * (*ptr)->nb_of_philosophers);
+	if ((!(*ptr)->th_p) || (!(*ptr)->th_d) || (!(*ptr)->forks))
 	{
 		ft_error("Error during malloc allocation\n");
 		ft_free_struct_t_ptr(ptr);
@@ -168,9 +168,9 @@ int	ft_check_malloc_philos(t_philo *philos, t_utils *ptr)
 
 int	ft_thread_generate(t_philo *philos, t_utils *ptr)
 {
-	if (ft_thread_create(ptr, philos, ptr->P, ptr->D))
+	if (ft_thread_create(ptr, philos, ptr->th_p, ptr->th_d))
 		return (1);
-	if (ft_thread_join(ptr, ptr->P, ptr->D, philos))
+	if (ft_thread_join(ptr, ptr->th_p, ptr->th_d, philos))
 		return (1);
 	return (0);
 
@@ -189,7 +189,7 @@ int main(int argc, char *argv[])
 	philos = malloc(sizeof(t_philo) * (*ptr).nb_of_philosophers);
 	if (ft_check_malloc_philos(philos, ptr))
 		return (1);
-	if (ft_mutex_init(ptr, ptr->F, philos))
+	if (ft_mutex_init(ptr, ptr->forks, philos))
 		return (1);
 	if(ft_check_validity2(argc, argv, ptr, philos))
 		return(1);
@@ -200,7 +200,7 @@ int main(int argc, char *argv[])
 		return (1);
 	if(ft_thread_generate(philos, ptr))
 		return (1);
-	if (ft_mutex_destroy(ptr, philos, ptr->F, 0))
+	if (ft_mutex_destroy(ptr, philos, ptr->forks, 0))
 		return(1);
 	ft_free_struct_t_philo(&philos);
 	return (0);

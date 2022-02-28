@@ -1,6 +1,18 @@
-﻿#include "philo.h"
+﻿/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   start_routine.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbenmesb <mbenmesb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/28 04:38:01 by mbenmesb          #+#    #+#             */
+/*   Updated: 2022/02/28 04:38:14 by mbenmesb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#include "philo.h"
 
-void	ft_redirect_philosopher_to_fork(t_philo *p, int n, int smallest_fork, int big_fork)
+void	ft_redirect_philosopher_to_fork(t_philo *p, int n, int smallest_fork, \
+										int big_fork)
 {
 	if (get_nb_of_philosophers(p->ptr) % 2 == 0)
 	{
@@ -29,7 +41,7 @@ void	ft_sleep_and_think(t_philo *p)
 	ft_call_usleep(get_t_to_sleep(p->ptr));
 	chrono_think = ft_itoa((int)(curr_time() - get_t_start(p->ptr)));
 	ft_call_ft_printf(p, 'T', chrono_think);
-	if(get_nb_of_philosophers(p->ptr) % 2 != 0)
+	if (get_nb_of_philosophers(p->ptr) % 2 != 0)
 		ft_call_usleep(100);
 	ft_free_str(chrono_think);
 }
@@ -51,12 +63,12 @@ void	ft_positioning_forks_and_philos(t_philo *p)
 	else
 		big_fork = n;
 	ft_redirect_philosopher_to_fork(p, n, smallest_fork, big_fork);
-	if (get_nb_of_mandatory_meals(p->ptr) != -1 && get_nb_of_dinners(p) == get_nb_of_mandatory_meals(p->ptr))
+	if (get_nb_of_mandatory_meals(p->ptr) != -1 && \
+			get_nb_of_dinners(p) == get_nb_of_mandatory_meals(p->ptr))
 	{
 		pthread_mutex_lock(&(*p).ptr->mutex_printf);
 		set_stop_dining_all_p(p, 1);
 		pthread_mutex_unlock(&(*p).ptr->mutex_printf);
-
 		return;
 	}
 	ft_sleep_and_think(p);
@@ -69,13 +81,12 @@ void *ft_start_routine(void *arg)
 
 	stop = 0;
 	p = (t_philo *)arg;
-	while(stop == 0)
+	while (stop == 0)
 	{
 		ft_positioning_forks_and_philos(p);
 		pthread_mutex_lock(&(*p).ptr->mutex_printf);
 		stop = get_stop_dining_all(p->ptr) + get_stop_dining_all_p(p);
 		pthread_mutex_unlock(&(*p).ptr->mutex_printf);
-
 	}
 	return (NULL);
 }

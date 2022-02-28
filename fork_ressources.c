@@ -1,4 +1,15 @@
-﻿#include "philo.h"
+﻿/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fork_ressources.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbenmesb <mbenmesb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/28 04:19:23 by mbenmesb          #+#    #+#             */
+/*   Updated: 2022/02/28 04:19:40 by mbenmesb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#include "philo.h"
 
 void	ft_biggest_fork(t_philo *p, int smallest_fork, int big_fork)
 {
@@ -7,7 +18,7 @@ void	ft_biggest_fork(t_philo *p, int smallest_fork, int big_fork)
 	char *chrono_eat;
 	pthread_mutex_t *F;
 
-	F = (*p).ptr->F;
+	F = (*p).ptr->forks;
 	pthread_mutex_lock(&F[big_fork]);
 	chrono_bfork = ft_itoa((int)(curr_time()- get_t_start(p->ptr)));
 	ft_call_ft_printf(p, 'F', chrono_bfork);
@@ -35,7 +46,7 @@ void	ft_smallest_fork(t_philo *p, int smallest_fork, int big_fork)
 	char *chrono_eat;
 	pthread_mutex_t *F;
 
-	F = (*p).ptr->F;
+	F = (*p).ptr->forks;
 	pthread_mutex_lock(&F[smallest_fork]);
 	chrono_sfork = ft_itoa((int)(curr_time()- get_t_start(p->ptr)));
 	ft_call_ft_printf(p, 'F', chrono_sfork);

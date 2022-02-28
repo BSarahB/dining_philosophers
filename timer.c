@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   timer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mbenmesb <mbenmesb@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/28 04:49:44 by mbenmesb          #+#    #+#             */
+/*   Updated: 2022/02/28 04:49:52 by mbenmesb         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "philo.h"
 
 unsigned int	curr_time(void)
@@ -32,7 +43,7 @@ void	ft_call_usleep(unsigned int time_in_ms)
 	{
 		nb_intervals = time_in_ms / 1000;
 		last_interval_ms = time_in_ms % 1000;
-		while(((curr_time() - start_time) < time_in_ms) && nb_intervals > 0 )
+		while (((curr_time() - start_time) < time_in_ms) && nb_intervals > 0)
 		{
 			usleep(1000000);
 			nb_intervals --;
@@ -46,25 +57,25 @@ void	ft_call_usleep(unsigned int time_in_ms)
 
 unsigned int	ft_calculate_time_to_exec_function(void)
 {
-	unsigned int mem_time;
-	unsigned int first_time;
-	unsigned int current_time;
-	unsigned int measured_time;
+	unsigned int	mem_time;
+	unsigned int	first_time;
+	unsigned int	current_time;
+	unsigned int	measured_time;
 
 	mem_time = 0;
 	first_time = 1;
-	if(first_time == 1)
+	if (first_time == 1)
 	{
 		mem_time = curr_time();
 		first_time = 0;
-		return(0);
+		return (0);
 	}
 	else
 	{
 		current_time = curr_time();
-		measured_time =  current_time - mem_time;
+		measured_time = current_time - mem_time;
 		printf("le temps ecoule en ms : %u\n", measured_time);
 		first_time = 1;
-		return(measured_time);
+		return (measured_time);
 	}
 }
