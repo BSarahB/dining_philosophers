@@ -64,6 +64,8 @@ void			ft_free_struct_t_ptr(t_utils **ptr);
 void			ft_free_struct_t_philo_only(t_philo **p);
 void			ft_free_malloc_mutex_f(pthread_mutex_t *forks);
 void			ft_free_malloc_threads_p(pthread_t *th_p);
+void			ft_destroy_and_free_separately(t_philo *philos, t_utils *ptr);
+void			ft_destroy_and_free(t_philo *philos, t_utils *ptr);
 void			ft_free_separately(t_philo *philos, t_utils *ptr);
 int				ft_check_validity(int argc, char *argv[]);
 int				ft_check_validity2(int argc, char *argv[], t_utils *ptr, \
@@ -74,18 +76,21 @@ int				ft_check_malloc_ptr(t_utils *ptr);
 int				ft_check_malloc_philos(t_philo *philos, t_utils *ptr);
 int				ft_mandatory_meals(int argc, char *argv[], t_utils *ptr);
 int				ft_init_philosophers(t_philo *philos, t_utils *ptr);
+t_utils			*ft_struct_init(t_utils **ptr, char *argv[]);
+void			ft_struct_init_values(t_utils **ptr, char *argv[]);
 void			ft_error(char *const str);
 void			ft_putstr_fd(char *s, int fd);
 int				ft_only_one_philo(t_utils *ptr, t_philo *philos);
-int				ft_mutex_init(t_utils *ptr, pthread_mutex_t *F, \
+int				ft_mutex_init(t_utils *ptr, pthread_mutex_t *f, \
 							t_philo *philos);
 int				ft_thread_generate(t_philo *philos, t_utils *ptr);
-int				ft_thread_create(t_utils *ptr, t_philo *philos, pthread_t *P, \
-								pthread_t *D);
-int				ft_thread_join(t_utils *ptr, pthread_t *P, pthread_t *D, \
+int				ft_thread_create(t_utils *ptr, t_philo *philos, \
+								pthread_t *th_p, \
+								pthread_t *th_d);
+int				ft_thread_join(t_utils *ptr, pthread_t *th_p, pthread_t *th_d, \
 							t_philo *philos);
 int				ft_mutex_destroy(t_utils *ptr, t_philo *philos, \
-								pthread_mutex_t *F, int p);
+								pthread_mutex_t *f, int p);
 void			*ft_start_routine666(void *arg);
 void			ft_call_ft_printf(t_philo *p, char c, char *chrono);
 unsigned int	ft_calculate_time_to_exec_function(void);

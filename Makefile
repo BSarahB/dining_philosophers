@@ -26,6 +26,8 @@ SRCS		=	check_validity_and_init_ptr_and_philosophers.c \
 				struct_t_philo_1_data_race_set_var.c \
 				struct_t_utils_2_data_race_get_var.c \
 				struct_t_utils_2_data_race_set_var.c \
+				thread_create_and_join.c \
+				mutex_init_and_destroy.c \
 				
 OBJS		=	$(SRCS:.c=.o)
 

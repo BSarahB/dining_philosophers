@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "philo.h"
 
-void	ft_free_separately(t_philo *philos, t_utils *ptr)
+void	ft_destroy_and_free_separately(t_philo *philos, t_utils *ptr)
 {
 	ft_mutex_destroy(ptr, philos, ptr->forks, 0);
 	ft_free_struct_t_ptr(&ptr);
@@ -31,7 +31,7 @@ int	ft_init_philosophers(t_philo *philos, t_utils *ptr)
 		if (k == -1)
 		{
 			printf("Mutex_protect philos[i] initialization failed\n");
-			ft_free_separately(philos, ptr);
+			ft_destroy_and_free_separately(philos, ptr);
 			return (1);
 		}
 		philos[i].ptr = ptr;
