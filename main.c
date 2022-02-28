@@ -1,4 +1,4 @@
-#include "philo.h"
+﻿#include "philo.h"
 
 int	ft_mutex_destroy(t_utils *ptr, t_philo *philos, pthread_mutex_t *F, int p)
 {
@@ -15,7 +15,6 @@ int	ft_mutex_destroy(t_utils *ptr, t_philo *philos, pthread_mutex_t *F, int p)
 			printf("Mutex_protect not Destroyed for %d\n",get_id(&philos[p]));
 		if (k != 0 || kk != 0)
 		{
-	//		first_time = 1;
 			ft_mutex_destroy(ptr, philos, F, p + 1);
 			ft_free_struct_t_philo(&philos);
 			return(1);
@@ -109,7 +108,8 @@ int	ft_mutex_init(t_utils *ptr, pthread_mutex_t *F, t_philo *philos)
 	}
 	if (k == -1)
 	{
-		ft_free_struct_t_philo(&philos);
+		ft_free_struct_t_ptr(&ptr);
+		ft_free_struct_t_philo_only(&philos);
 		return(1);
 	}
 	return (0);
@@ -171,7 +171,7 @@ int	ft_thread_generate(t_philo *philos, t_utils *ptr)
 	if (ft_thread_create(ptr, philos, ptr->P, ptr->D))
 		return (1);
 	if (ft_thread_join(ptr, ptr->P, ptr->D, philos))
-		return(1);
+		return (1);
 	return (0);
 
 }

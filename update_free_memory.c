@@ -49,12 +49,3 @@ void	ft_free_struct_t_philo_only(t_philo **p)
 		*p = NULL;
 	}
 }
-
-void	ft_free_str(char *str)
-{
-	if (str != NULL)
-	{
-		free(str);
-		str = NULL;
-	}
-}

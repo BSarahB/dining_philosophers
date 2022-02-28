@@ -22,5 +22,6 @@ int	get_t_start(t_utils *ptr)
 
 int	get_nb_of_mandatory_meals(t_utils *ptr)
 {
-	return (read_protected_int(&ptr->mutex_protect,&ptr->nb_of_mandatory_meals));
+	return (read_protected_int(&ptr->mutex_protect, \
+							&ptr->nb_of_mandatory_meals));
 }

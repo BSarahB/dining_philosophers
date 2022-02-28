@@ -1,4 +1,4 @@
-#include "philo.h"
+﻿#include "philo.h"
 
 int	ft_init_philosophers(t_philo *philos, t_utils *ptr)
 {
@@ -13,7 +13,9 @@ int	ft_init_philosophers(t_philo *philos, t_utils *ptr)
 		if (k == -1)
 		{
 			printf("Mutex_protect philos[i] initialization failed\n");
-			ft_free_struct_t_philo(&philos);
+			ft_mutex_destroy(ptr, philos, ptr->F, 0);
+			ft_free_struct_t_ptr(&ptr);
+			ft_free_struct_t_philo_only(&philos);
 			return (1);
 		}
 		philos[i].ptr = ptr;
@@ -48,9 +50,8 @@ int	ft_check_validity2(int argc, char *argv[], t_utils *ptr, t_philo *philos)
 	{
 		ft_error("Error\n make sure your nb of meals is > 0 ");
 		ft_mutex_destroy(ptr, philos, ptr->F, 0);
-	//	ft_free_struct_t_philo(&philos);
 		ft_free_struct_t_ptr(&ptr);
-		ft_free_struct_t_philo_only(&philos);//destroy les mutex ici et en bas ft_free_struct_t_philo(&philos); + ft_mutex_destroy(ptr, philos, (*ptr).F, 0);
+		ft_free_struct_t_philo_only(&philos);
 		return (1);
 	}
 	if (get_nb_of_philosophers(ptr) <= 0 || get_t_to_die(ptr) <= 0 || \
@@ -58,14 +59,14 @@ int	ft_check_validity2(int argc, char *argv[], t_utils *ptr, t_philo *philos)
 	{
 		ft_error("Error\n make sure your use values > 0\n");
 		ft_mutex_destroy(ptr, philos, ptr->F, 0);
-		//ft_free_struct_t_philo(&philos);
 		ft_free_struct_t_ptr(&ptr);
 		ft_free_struct_t_philo_only(&philos);
 		return (1);
 	}
 	return (0);
 }
-void	ft_init_ptr(t_utils *ptr, char *argv[], pthread_t *P,pthread_t *D, pthread_mutex_t *F)
+void	ft_init_ptr(t_utils *ptr, char *argv[], pthread_t *P,pthread_t *D, \
+					pthread_mutex_t *F)
 {
 	set_t_to_die(ptr,(int)ft_atoi(argv[2]));
 	set_t_to_eat(ptr,(int)ft_atoi(argv[3]));

@@ -12,9 +12,9 @@ void	*ft_start_routine666(void *arg)
 	{
 		pthread_mutex_lock(&(*p).ptr->mutex666);
 
-		if ((curr_time() - get_last_meal_time(p)) >= (unsigned int)get_t_to_die(p->ptr))
+		if ((curr_time() - get_last_meal_time(p)) >= \
+				(unsigned int)get_t_to_die(p->ptr))
 		{
-
 				chrono_death = ft_itoa((int)(curr_time() - get_t_start(p->ptr)));
 				ft_call_ft_printf(p, 'D', chrono_death);
 				ft_free_str(chrono_death);
@@ -25,7 +25,6 @@ void	*ft_start_routine666(void *arg)
 		pthread_mutex_lock(&(*p).ptr->mutex_printf);
 		stop = get_stop_dining_all(p->ptr) + get_stop_dining_all_p(p);
 		pthread_mutex_unlock(&(*p).ptr->mutex_printf);
-
 	}
 	return (NULL);
 }

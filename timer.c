@@ -46,8 +46,8 @@ void	ft_call_usleep(unsigned int time_in_ms)
 
 unsigned int	ft_calculate_time_to_exec_function(void)
 {
-	static unsigned int mem_time;
-	static unsigned int first_time;
+	unsigned int mem_time;
+	unsigned int first_time;
 	unsigned int current_time;
 	unsigned int measured_time;
 

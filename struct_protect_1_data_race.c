@@ -22,7 +22,8 @@ void write_protected_int(pthread_mutex_t *mutex, int *var, const int value)
 	pthread_mutex_unlock(mutex);
 }
 
-void write_protected_t_utils(pthread_mutex_t * mutex, t_utils *var, const t_utils value)
+void write_protected_t_utils(pthread_mutex_t *mutex, t_utils *var, \
+							const t_utils value)
 {
 	pthread_mutex_lock(mutex);
 	*var = value;

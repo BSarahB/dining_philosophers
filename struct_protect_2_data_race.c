@@ -15,7 +15,8 @@ pthread_t *read_protected_pthread_t_star(pthread_mutex_t *mutex, pthread_t *var)
 	return (value);
 }
 
-void write_protected_pthread_t(pthread_mutex_t *mutex, pthread_t *var, const pthread_t value)
+void write_protected_pthread_t(pthread_mutex_t *mutex, pthread_t *var, \
+							const pthread_t value)
 {
 	pthread_mutex_lock(mutex);
 	*var = value;

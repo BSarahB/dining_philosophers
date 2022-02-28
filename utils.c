@@ -1,5 +1,14 @@
 #include "philo.h"
 
+void	ft_free_str(char *str)
+{
+	if (str != NULL)
+	{
+		free(str);
+		str = NULL;
+	}
+}
+
 int		find_length(int n)
 {
 	int length;
