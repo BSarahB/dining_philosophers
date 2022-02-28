@@ -1,11 +1,21 @@
-
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mbenmesb <mbenmesb@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/02/28 18:34:05 by mbenmesb          #+#    #+#              #
+#    Updated: 2022/02/28 18:34:44 by mbenmesb         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 NAME		=	philo
 
 INCLUDE_DIR		=	.
 
 CC			=	clang
 
-CFLAGS		=	-Werror -Wall -Wextra -g -I $(INCLUDE_DIR) -pthread -fsanitize=address -fsanitize=leak#-fsanitize=thread#-fsanitize=address -fsanitize=leak
+CFLAGS		=	-Werror -Wall -Wextra -g -I $(INCLUDE_DIR) -pthread #-fsanitize=address -fsanitize=leak#-fsanitize=thread#-fsanitize=address -fsanitize=leak
 
 SRCS		=	check_validity_and_init_ptr_and_philosophers.c \
 				death.c \
